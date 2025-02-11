@@ -1,4 +1,4 @@
-# R_Projects - Data Analysis
+# R Data Analysis Projects | Data Cleaning & Visualization
 This repository contains data analysis projects using R.
 I analyze datasets, clean them, and apply statistical techniques.
 ###📌 Included Analyses:
