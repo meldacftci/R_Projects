@@ -7,9 +7,24 @@
 ✔ Statical Summarise
 ✔ Data Visualization using ggplot2
 
+📌 Datasets & Projects
+✔ Raw Data: The original dataset before cleaning.
+✔ Preprocessing Steps: Cleaning and structuring the dataset.
+✔ Visualization & Analysis: Graphical representations and insights.
+
 📌 Libraries Used
-✔ tidyr
-✔ readr
+✔ tidyr > Data cleaning
+✔ readr > Reading a different format
+✔ ggplot2 > Data visualization
+✔ dplyr > Data manipulation
+
+📌 Goals & Next Steps
+✔ Work on real-word datasets to gain hands-on experience.
+✔ Improve R programming skills with more advanced statistical techniques.
+✔ Apply machine learning anf predictive modeling in future projects.
+
+📌 Contributions & Feedback
+If you have suggestions or feedback, feel free to open an issue or fork the repository!
 
 data8 <-read.csv("C:/Users/hp/Desktop/R-Giris-Seviyesi-Egitimi-main/odev_1.csv")
 # I imported to R a dataset from my library by using read.csv funciton.
@@ -196,4 +211,50 @@ head(data8_again, 10)
 3    yılan   tost     155
 4 örümcek  simit     165
 5    yılan köfte       2
-
+# I transformed the type of categoric data to the type of factoric to facilitate the analysis.
+> data8_again$E.K<-as.factor(data8_again$E.K)
+> data8_again$sevdigi<-as.factor(data8_again$sevdigi)
+> data8_again$sevmedigi<-as.factor(data8_again$sevmedigi)
+> data8_again$yemek<-as.factor(data8_again$yemek)
+> str(data8_again)
+'data.frame':	5 obs. of  8 variables:
+ $ X        : int  1 2 3 4 5
+ $ ad_soyad : chr  "Ali Demirci" "Ay�\u009fe Demirci" "Merve Kalemci" "Mustafa Korkmaz" ...
+ $ E.K      : Factor w/ 2 levels "E","K": 1 2 2 1 1
+ $ numara   : int  1 3 5 4 2
+ $ sevdigi  : Factor w/ 5 levels "Futbol","Kodlama",..: 1 3 5 2 4
+ $ sevmedigi: Factor w/ 4 levels "fare","köpek",..: 1 2 3 4 3
+ $ yemek    : Factor w/ 5 levels "köfte","pide",..: 2 3 5 4 1
+ $ boyu.m.  : num  19 18 155 165 2
+# I printed the basic statistics e.g. mean, median, and standard deviation etc.
+mean(data8_again$X, na.rm = TRUE)
+[1] 3
+> mean(data8_again$numara, na.rm= TRUE)
+[1] 3
+> mean(data8_again$boyu.m., na.rm = TRUE)
+[1] 71.8
+median(data8_again$X, na.rm = TRUE)
+[1] 3
+> median(data8_again$numara, na.rm = TRUE)
+[1] 3
+> median(data8_again$boyu.m., na.rm = TRUE)
+[1] 19
+> sd(data8_again$X, na.rm = TRUE)
+[1] 1.581139
+sd(data8_again$numara, na.rm = TRUE)
+[1] 1.581139
+> sd(data8_again$boyu.m., na.rm = TRUE)
+[1] 80.87459
+# I used ggplot2 package and geom_histogram() function to visually examine the distribution of height lengths in the data.
+> ggplot(data8_again, aes(x=`boyu.m.` ))+
++   geom_histogram(binwidth = 5, fill="blue", color="black")+
++                    labs(title="Boy Dagilimi", x="Boy(m)", y="Frekans")
+# I grouped the average heights of the genders by using group_by() function.
+> data8_again %>%
++   group_by(data8_again$E.K) %>%
++   summarise(OrtalamaBoy =mean(data8_again$boyu.m., na.rm = TRUE))
+# A tibble: 2 × 2
+  `data8_again$E.K` OrtalamaBoy
+  <fct>                   <dbl>
+1 E                        71.8
+2 K                        71.8
