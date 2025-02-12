@@ -1,0 +1,199 @@
+### R DATA ANALYSIS PROJECTS| DATA CLEANING & VISUALIZATION
+## This repository contains data analysis projects using R, where I analyze datasets, clean and preprocess them, and apply statistical and visualization techniques.
+   The goal is to develop data manipulation skills and enhance analytical thinking using real-word datasets.
+📌 Included Analyses
+✔ Data Cleaning 
+✔ Exploratory Data Analysis (EDA)
+✔ Statical Summarise
+✔ Data Visualization using ggplot2
+
+📌 Libraries Used
+✔ tidyr
+✔ readr
+
+data8 <-read.csv("C:/Users/hp/Desktop/R-Giris-Seviyesi-Egitimi-main/odev_1.csv")
+# I imported to R a dataset from my library by using read.csv funciton.
+> print(data8)
+# I used print() function to see the content of the dataset.
+                                                X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m.
+1;Ali Demirci;E;1;Futbol;fare;pide;1                                                                9
+2;Ay�\u009fe Demirci;K;3;Resim;köpek;pilav;1                                                       8
+3;Merve Kalemci;K;5;Yüzme;yılan;tost;1                                                           55
+4;Mustafa Korkmaz;E;4;Kodlama;örümcek;simit;1                                                    65
+5;Yahya Balcı;E;2;Tamirat;yılan;köfte;2                                                         NA
+> head(data8)
+# I used head() function to see first few rows in the data.
+                                                X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m.
+1;Ali Demirci;E;1;Futbol;fare;pide;1                                                                9
+2;Ay�\u009fe Demirci;K;3;Resim;köpek;pilav;1                                                       8
+3;Merve Kalemci;K;5;Yüzme;yılan;tost;1                                                           55
+4;Mustafa Korkmaz;E;4;Kodlama;örümcek;simit;1                                                    65
+5;Yahya Balcı;E;2;Tamirat;yılan;köfte;2                                                         NA
+> str(dat8)
+Hata: 'dat8' nesnesi bulunamadı
+# My mistake was that I did not write the dataset's name properly. I fixed this mistake in the next row.
+> str(data8)
+'data.frame':	5 obs. of  1 variable:
+ $ X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m.: int  9 8 55 65 NA
+# I realized that there are N/A expressions in the dataset. Therefore, I wanted to see N/A in detail by using sum(is.na()) function. 
+ sum(is.na(data8$X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m.)
+# When I wanted to do this, I saw that the column names are combined. Therefore, I decided to use tdyr() package.
+install.packages("tidyr")
+Hata: unexpected symbol içinde:
+"sum(is.na(data8$X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m.)
+install.packages"
+> library(tidyr) 
+# I seperated the column names by using seperate() function in the package of tidyr.
+> data8_regulated <- data8 %>%
++   separate(X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m., 
++            into = c("Ad_Soyad", "cinsiyet", "Numara", "Hobi", "Fobi", "Yemek", "Boy(cm)"), 
++            sep = ",")
+Uyarı mesajları:
+Expected 7 pieces. Missing pieces filled
+with `NA` in 4 rows [1, 2, 3, 4]. 
+# I used colnames() function to see the seperated colunm names.
+> colnames(data8_regulated)
+[1] "Ad_Soyad" "cinsiyet" "Numara"  
+[4] "Hobi"     "Fobi"     "Yemek"   
+[7] "Boy(cm)" 
+# After I seperated the column names properly, I used sum(is.na()) function to see N/As for every column.
+ sum(is.na(data8_regulated$Ad_Soyad))
+[1] 1
+# I saw that there was only one N/A in the column of Ad_Soyad.
+> sum(is.na(data8_regulated$cinsiyet))
+[1] 5
+# There were five N/As in this column.
+sum(is.na(data8_regulated$Numara))
+[1] 5
+# There were five N/As in this column.
+sum(is.na(data8_regulated$Hobi))
+[1] 5
+# There were five N/As in this column.
+sum(is.na(data8_regulated$Fobi))
+[1] 5
+# There were five N/As in this column.
+sum(is.na(data8_regulated$Yemek))
+[1] 5
+# There were five N/As in this column.
+ sum(is.na(data8_regulated$`Boy(cm)`))
+[1] 5
+# There were five N/As in this column.
+# After I determined N/As in the columns, I used na.omit() to delete N/As. 
+data8_regulated <-na.omit(data8_regulated)
+# I realized that all data was deleted when I used str() function to see the table.
+str(data8_regulated)
+'data.frame':	0 obs. of  7 variables:
+ $ Ad_Soyad: chr 
+ $ cinsiyet: chr 
+ $ Numara  : chr 
+ $ Hobi    : chr 
+ $ Fobi    : chr 
+ $ Yemek   : chr 
+ $ Boy(cm) : chr 
+# Therefore, I uploaded the dataset with a new name to start from the beginning again.
+> data8_again <-read.csv("C:/Users/hp/Desktop/R-Giris-Seviyesi-Egitimi-main/odev_1.csv")
+> head(data8_again)
+                                                X.ad_soyad.E.K.numara.sevdigi.sevmedigi.yemek.boyu.m.
+1;Ali Demirci;E;1;Futbol;fare;pide;1                                                                9
+2;Ay�\u009fe Demirci;K;3;Resim;köpek;pilav;1                                                       8
+3;Merve Kalemci;K;5;Yüzme;yılan;tost;1                                                           55
+4;Mustafa Korkmaz;E;4;Kodlama;örümcek;simit;1                                                    65
+5;Yahya Balcı;E;2;Tamirat;yılan;köfte;2                                                         NA
+# I used another technique to seperate the column names.
+data8_again <- read.csv("C:/Users/hp/Desktop/R-Giris-Seviyesi-Egitimi-main/odev_1.csv", sep = ";", header = TRUE, stringsAsFactors = FALSE)
+# I checked whether it worked or not. It worked!
+ colnames(data8_again)
+[1] "X"         "ad_soyad"  "E.K"      
+[4] "numara"    "sevdigi"   "sevmedigi"
+[7] "yemek"     "boyu.m."
+# I checked N/As for every column. 
+sum(is.na(data8_again$X))
+[1] 0
+> sum(is.na(data8_again$ad_soyad))
+[1] 0
+> sum(is.na(data8_again$E.K))
+[1] 0
+> sum(is.na(data8_again$numara))
+[1] 0
+> sum(is.na(data8_again$sevdigi))
+[1] 0
+> sum(is.na(data8_again$sevmedigi))
+[1] 0
+> sum(is.na(data8_again$yemek))
+[1] 0
+> sum(is.na(data8_again$boyu.m.))
+[1] 0
+# I used class() function to know type of data in the columns.
+class(data8_again$ad_soyad)
+[1] "character"
+> class(data8_again$E.K)
+[1] "character"
+> class(data8_again$numara)
+[1] "integer"
+> class(data8_again$sevdigi)
+[1] "character"
+> class(data8_again$sevmedigi)
+[1] "character"
+> class(data8_again$yemek)
+[1] "character"
+> class(data8_again$boyu.m.)
+[1] "character
+#I needed to transform the type of the column of boyu.m because it was numeric bu it looked as character.
+data8_again$boyu.m.<- as.numeric(gsub("[^0-9]", "", data8_again$boyu.m.))
+# I used as.numeric() to tranfrom the type and I added gsub() function to delete unnecessary characters.
+class(data8_again$boyu.m.)
+[1] "numeric"
+# I ckecked and it was successful!
+str(data8_again)
+'data.frame':	5 obs. of  8 variables:
+ $ X        : int  1 2 3 4 5
+ $ ad_soyad : chr  "Ali Demirci" "Ay�\u009fe Demirci" "Merve Kalemci" "Mustafa Korkmaz" ...
+ $ E.K      : chr  "E" "K" "K" "E" ...
+ $ numara   : int  1 3 5 4 2
+ $ sevdigi  : chr  "Futbol" "Resim" "Yüzme" "Kodlama" ...
+ $ sevmedigi: chr  "fare" "köpek" "yılan" "örümcek" ...
+ $ yemek    : chr  "pide" "pilav" "tost" "simit" ...
+ $ boyu.m.  : num  19 18 155 165 2
+summary(data8_again)
+       X       ad_soyad        
+ Min.   :1   Length:5          
+ 1st Qu.:2   Class :character  
+ Median :3   Mode  :character  
+ Mean   :3                     
+ 3rd Qu.:4                     
+ Max.   :5                     
+     E.K                numara 
+ Length:5           Min.   :1  
+ Class :character   1st Qu.:2  
+ Mode  :character   Median :3  
+                    Mean   :3  
+                    3rd Qu.:4  
+                    Max.   :5  
+   sevdigi           sevmedigi        
+ Length:5           Length:5          
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      
+    yemek              boyu.m.     
+ Length:5           Min.   :  2.0  
+ Class :character   1st Qu.: 18.0  
+ Mode  :character   Median : 19.0  
+                    Mean   : 71.8  
+                    3rd Qu.:155.0  
+                    Max.   :165.0 
+head(data8_again, 10)
+  X           ad_soyad E.K numara sevdigi
+1 1        Ali Demirci   E      1  Futbol
+2 2 Ay�\u009fe Demirci   K      3   Resim
+3 3      Merve Kalemci   K      5  Yüzme
+4 4    Mustafa Korkmaz   E      4 Kodlama
+5 5       Yahya Balcı   E      2 Tamirat
+  sevmedigi  yemek boyu.m.
+1      fare   pide      19
+2    köpek  pilav      18
+3    yılan   tost     155
+4 örümcek  simit     165
+5    yılan köfte       2
+
