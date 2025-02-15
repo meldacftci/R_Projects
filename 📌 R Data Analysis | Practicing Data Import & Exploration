@@ -1,0 +1,77 @@
+📌 R Data Analysis | Practicing Data Import & Exploration
+## This repository contains a basic dataset that I created to practice data import, 
+exploration, and basic operations in R before working with real datasets. 
+The dataset includes names, ages, genders, occupations, and income levels of 
+individuals.
+📌 Key Steps in This Project:
+✔ Imported the dataset from an Excel file using read_excel().
+✔ Checked the dataset structure with str().
+✔ Summarized key statistics using summary().
+✔ Checked for missing values using sum(is.na()).
+✔ Converted the dataset format from tbl_df to data.frame using as.data.frame().
+
+📌 Purpose & Outcome:
+## This project helped me develop a structured workflow for handling datasets in R.
+By practicing data import, exploration, and transformation techniques, I gained 
+confidence in working with structured datasets before moving on to complex
+real-world data analysis.
+
+
+
+
+# I made Gemini create an Excel Table because I wanted to practice by working data before starting to work with real dataset.
+# I named the table as data9 and imported to R by using read_excel() function.
+data9 <- read_excel("C:/Users/hp/Downloads/basitexcel.xlsx")
+# I used head() function to see basic information about the dataset.
+> head(data9)
+# A tibble: 5 × 5
+  `İsim`      `Yaş` Cinsiyet   Meslek Gelir
+  <chr>       <dbl> <chr>      <chr>  <dbl>
+1 "Ay\u015fe"    25 "Kad\u013… "\u00…  5000
+2 "Ali"          30 "Erkek"    "M\u0…  7000
+3 "Veli"         22 "Erkek"    "\u00…  1500
+4 "Fatma"        40 "Kad\u013… "Dokt… 10000
+5 "Mehmet"       35 "Erkek"    "Avuk…  8000
+# I investigated types of the dataset by using str() function.
+> str(data9)
+tibble [5 × 5] (S3: tbl_df/tbl/data.frame)
+ $ İsim    : chr [1:5] "Ayşe" "Ali" "Veli" "Fatma" ...
+ $ Yaş     : num [1:5] 25 30 22 40 35
+ $ Cinsiyet: chr [1:5] "Kadın" "Erkek" "Erkek" "Kadın" ...
+ $ Meslek  : chr [1:5] "Öğretmen" "Mühendis" "Öğrenci" "Doktor" ...
+ $ Gelir   : num [1:5] 5000 7000 1500 10000 8000
+# I used summary() function to see general information about the dataset.
+> summary(data9)
+     İsim                Ya�\u009f      
+ Length:5           Min.   :22.0  
+ Class :character   1st Qu.:25.0  
+ Mode  :character   Median :30.0  
+                    Mean   :30.4  
+                    3rd Qu.:35.0  
+                    Max.   :40.0  
+   Cinsiyet            Meslek         
+ Length:5           Length:5          
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      
+     Gelir      
+ Min.   : 1500  
+ 1st Qu.: 5000  
+ Median : 7000  
+ Mean   : 6300  
+ 3rd Qu.: 8000  
+ Max.   :10000  
+# I used sum(is.na)) function to know how many N/As there are in the dataset.
+> sum(is.na(data9))
+[1] 0
+# I used class() function see types of the columns in the dataset but I could not reach the result I wanted because I did not write the column names by adding '$'.
+# My mistake showed me that the data9 were described as tbl.
+> class(data9)
+[1] "tbl_df"     "tbl"        "data.frame"
+# I changed type of the data9 by using as.data.frame() function.
+> data9_df <- as.data.frame(data9)
+# I checked, it worked!
+> class(data9_df)
+[1] "data.frame"
