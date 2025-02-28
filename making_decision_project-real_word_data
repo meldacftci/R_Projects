@@ -1,0 +1,361 @@
+
+library(readxl)
+## I used read_excel() function to import the dataset to the R.
+> making_decision <- read_excel("C:/Users/hp/Downloads/mdregular.xlsx")
+## I used head() function to see the first few rows in the dataset.
+>head(making_decision)
+# A tibble: 6 × 12
+  Age   Gender Graduation   Frequency
+  <chr> <chr>  <chr>            <dbl>
+1 18-24 Female Bachelor's …         4
+2 18-24 Female High School…         4
+3 18-24 Male   High School…         4
+4 18-24 Female Bachelor's …         4
+5 25-34 Female Master's de…         5
+6 25-34 Male   Master's de…         4
+# ℹ 8 more variables:
+#   Guidance <dbl>,
+#   Independency <dbl>,
+#   Regret <dbl>,
+#   LevelInfluenced <dbl>,
+#   Risky <dbl>, Approaching <chr>,
+#   InfluenceFactors <chr>, …
+## I used str() function to see the types in the dataset.
+str(making_decision)
+tibble [96 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Age                       : chr [1:96] "18-24" "18-24" "18-24" "18-24" ...
+ $ Gender                    : chr [1:96] "Female" "Female" "Male" "Female" ...
+ $ Graduation                : chr [1:96] "Bachelor's degree" "High School or below" "High School or below" "Bachelor's degree" ...
+ $ Frequency                 : num [1:96] 4 4 4 4 5 4 5 4 4 2 ...
+ $ Guidance                  : num [1:96] 1 4 4 2 5 4 5 4 3 4 ...
+ $ Independency              : num [1:96] 4 4 4 4 4 4 4 3 3 3 ...
+ $ Regret                    : num [1:96] 3 4 4 2 3 1 3 2 2 4 ...
+ $ LevelInfluenced           : num [1:96] 3 4 4 3 5 3 4 5 4 4 ...
+ $ Risky                     : num [1:96] 4 3 4 3 5 4 5 4 2 1 ...
+ $ Approaching               : chr [1:96] "Logical and data-driven, Based on intuition and feelings" "Logical and data-driven, Based on intuition and feelings" "Seeking advice from others" "Logical and data-driven, Based on intuition and feelings, Seeking advice from others" ...
+ $ InfluenceFactors          : chr [1:96] "Financial situation, Personal values and beliefs, Time constraints" "Financial situation, Family/friends' opinions, Personal values and beliefs, Time constraints" "Family/friends' opinions" "Financial situation, Personal values and beliefs, Time constraints" ...
+ $ pastyeardifficultydecision: num [1:96] 3 3 4 3 5 5 4 4 3 5 ...
+ ## I used as.factor() function for the sections of gender and graduation to prevent causing wrong analysis.
+ > making_decision$Gender<- as.factor(making_decision$Gender)
+ > making_decision$Graduation<- as.factor(making_decision$Graduation)
+ ## I checked the results and it worked!
+> str(making_decision)
+tibble [96 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Age                       : chr [1:96] "18-24" "18-24" "18-24" "18-24" ...
+ $ Gender                    : Factor w/ 3 levels "Female","Male",..: 1 1 2 1 1 2 2 2 2 1 ...
+ $ Graduation                : Factor w/ 4 levels "Bachelor's degree",..: 1 2 2 1 3 3 3 1 1 1 ...
+ $ Frequency                 : num [1:96] 4 4 4 4 5 4 5 4 4 2 ...
+ $ Guidance                  : num [1:96] 1 4 4 2 5 4 5 4 3 4 ...
+ $ Independency              : num [1:96] 4 4 4 4 4 4 4 3 3 3 ...
+ $ Regret                    : num [1:96] 3 4 4 2 3 1 3 2 2 4 ...
+ $ LevelInfluenced           : num [1:96] 3 4 4 3 5 3 4 5 4 4 ...
+ $ Risky                     : num [1:96] 4 3 4 3 5 4 5 4 2 1 ...
+ $ Approaching               : chr [1:96] "Logical and data-driven, Based on intuition and feelings" "Logical and data-driven, Based on intuition and feelings" "Seeking advice from others" "Logical and data-driven, Based on intuition and feelings, Seeking advice from others" ...
+ $ InfluenceFactors          : chr [1:96] "Financial situation, Personal values and beliefs, Time constraints" "Financial situation, Family/friends' opinions, Personal values and beliefs, Time constraints" "Family/friends' opinions" "Financial situation, Personal values and beliefs, Time constraints" ...
+ $ pastyeardifficultydecision: num [1:96] 3 3 4 3 5 5 4 4 3 5 ...
+ ## I used tidyr() package because there were different answers at the same rows. I needed to seperate them to prevent causing wrong analysis.
+ > library(tidyr)
+ ## I used seperate() function in the package of tidyr. 
+ making_decision_approaching <- making_decision %>%
++   separate(Approaching, into = c("Approaching1", "Approaching2", "Approaching3", "Approaching4"), sep = ",", extra = "merge", fill = "right")
+## I used view() function to see it. It worked!
+> View(making_decision_approaching)
+## I did the same transaction for another column.
+> making_decision_InfluenceFactors <- making_decision %>%
++   separate(InfluenceFactors, into = c("Factor1", "Factor2", "Factor3", "Factor4", "Factor5"), sep = ",", extra = "merge", fill = "right")
+> View(making_decision_InfluenceFactors)
+## I checked the N/A's.
+> sum(is.na(making_decision))
+[1] 0
+## I uploaded the same dataset as making_decision_ageversion because I caused all data in the section of age to be deleted. After uploading, I used as.facotr() function for the section age.
+making_decision_ageversion <- read_excel("C:/Users/hp/Downloads/mdregular.xlsx")
+> str(making_decision_ageversion)
+tibble [96 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Age                       : chr [1:96] "18-24" "18-24" "18-24" "18-24" ...
+ $ Gender                    : chr [1:96] "Female" "Female" "Male" "Female" ...
+ $ Graduation                : chr [1:96] "Bachelor's degree" "High School or below" "High School or below" "Bachelor's degree" ...
+ $ Frequency                 : num [1:96] 4 4 4 4 5 4 5 4 4 2 ...
+ $ Guidance                  : num [1:96] 1 4 4 2 5 4 5 4 3 4 ...
+ $ Independency              : num [1:96] 4 4 4 4 4 4 4 3 3 3 ...
+ $ Regret                    : num [1:96] 3 4 4 2 3 1 3 2 2 4 ...
+ $ LevelInfluenced           : num [1:96] 3 4 4 3 5 3 4 5 4 4 ...
+ $ Risky                     : num [1:96] 4 3 4 3 5 4 5 4 2 1 ...
+ $ Approaching               : chr [1:96] "Logical and data-driven, Based on intuition and feelings" "Logical and data-driven, Based on intuition and feelings" "Seeking advice from others" "Logical and data-driven, Based on intuition and feelings, Seeking advice from others" ...
+ $ InfluenceFactors          : chr [1:96] "Financial situation, Personal values and beliefs, Time constraints" "Financial situation, Family/friends' opinions, Personal values and beliefs, Time constraints" "Family/friends' opinions" "Financial situation, Personal values and beliefs, Time constraints" ...
+ $ pastyeardifficultydecision: num [1:96] 3 3 4 3 5 5 4 4 3 5 ...
+> making_decision_ageversion$Age<- as.factor(making_decision_ageversion$Age)
+> str(making_decision_ageversion)
+tibble [96 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Age                       : Factor w/ 6 levels "18-24","25-34",..: 1 1 1 1 2 2 2 1 1 1 ...
+ $ Gender                    : chr [1:96] "Female" "Female" "Male" "Female" ...
+ $ Graduation                : chr [1:96] "Bachelor's degree" "High School or below" "High School or below" "Bachelor's degree" ...
+ $ Frequency                 : num [1:96] 4 4 4 4 5 4 5 4 4 2 ...
+ $ Guidance                  : num [1:96] 1 4 4 2 5 4 5 4 3 4 ...
+ $ Independency              : num [1:96] 4 4 4 4 4 4 4 3 3 3 ...
+ $ Regret                    : num [1:96] 3 4 4 2 3 1 3 2 2 4 ...
+ $ LevelInfluenced           : num [1:96] 3 4 4 3 5 3 4 5 4 4 ...
+ $ Risky                     : num [1:96] 4 3 4 3 5 4 5 4 2 1 ...
+ $ Approaching               : chr [1:96] "Logical and data-driven, Based on intuition and feelings" "Logical and data-driven, Based on intuition and feelings" "Seeking advice from others" "Logical and data-driven, Based on intuition and feelings, Seeking advice from others" ...
+ $ InfluenceFactors          : chr [1:96] "Financial situation, Personal values and beliefs, Time constraints" "Financial situation, Family/friends' opinions, Personal values and beliefs, Time constraints" "Family/friends' opinions" "Financial situation, Personal values and beliefs, Time constraints" ...
+ $ pastyeardifficultydecision: num [1:96] 3 3 4 3 5 5 4 4 3 5 ...
+ ## I deleted the old version by using rm() function and I created again them with making_decision_ageversion.
+ rm(making_decision_InfluenceFactors)
+> rm(making_decision_approaching)
+> making_decision_ageversion_approaching <- making_decision_ageversion %>%
++   separate(Approaching, into = c("Approaching1", "Approaching2", "Approaching3", "Approaching4"), sep = ",", extra = "merge", fill = "right")
+> making_decision_ageversion_InfluenceFactors <- making_decision_ageversion %>%
++   separate(InfluenceFactors, into = c("Factor1", "Factor2", "Factor3", "Factor4", "Factor5"), sep = ",", extra = "merge", fill = "right")
+> View(making_decision_ageversion_approaching)
+> View(making_decision_ageversion_InfluenceFactors)
+## I checked the data by using unique() function.
+> unique(making_decision_ageversion$Gender)
+[1] "Female" "Male"   "Other" 
+> unique(making_decision_ageversion$Graduation)
+[1] "Bachelor's degree"   
+[2] "High School or below"
+[3] "Master's degree"     
+[4] "PhD or higher"    
+## I checked the N/A's in the columns by using colSums(is.na()) function.
+> colSums(is.na(making_decision_ageversion))
+## I transformed gender and age section by using as.factor() function.
+> making_decision_ageversion$Gender<- as.factor(making_decision_ageversion$Gender)
+> making_decision_ageversion$Graduation<- as.factor(making_decision_ageversion$Graduation)
+> str(making_decision_ageversion)
+tibble [96 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Age                       : Factor w/ 6 levels "18-24","25-34",..: 1 1 1 1 2 2 2 1 1 1 ...
+ $ Gender                    : Factor w/ 3 levels "Female","Male",..: 1 1 2 1 1 2 2 2 2 1 ...
+ $ Graduation                : Factor w/ 4 levels "Bachelor's degree",..: 1 2 2 1 3 3 3 1 1 1 ...
+ $ Frequency                 : num [1:96] 4 4 4 4 5 4 5 4 4 2 ...
+ $ Guidance                  : num [1:96] 1 4 4 2 5 4 5 4 3 4 ...
+ $ Independency              : num [1:96] 4 4 4 4 4 4 4 3 3 3 ...
+ $ Regret                    : num [1:96] 3 4 4 2 3 1 3 2 2 4 ...
+ $ LevelInfluenced           : num [1:96] 3 4 4 3 5 3 4 5 4 4 ...
+ $ Risky                     : num [1:96] 4 3 4 3 5 4 5 4 2 1 ...
+ $ Approaching               : chr [1:96] "Logical and data-driven, Based on intuition and feelings" "Logical and data-driven, Based on intuition and feelings" "Seeking advice from others" "Logical and data-driven, Based on intuition and feelings, Seeking advice from others" ...
+ $ InfluenceFactors          : chr [1:96] "Financial situation, Personal values and beliefs, Time constraints" "Financial situation, Family/friends' opinions, Personal values and beliefs, Time constraints" "Family/friends' opinions" "Financial situation, Personal values and beliefs, Time constraints" ...
+ $ pastyeardifficultydecision: num [1:96] 3 3 4 3 5 5 4 4 3 5 ...
+ ## I used summary() function to see general apperance of the dataset.
+ > summary(making_decision_ageversion)
+    Age        Gender  
+ 18-24:38   Female:52  
+ 25-34:21   Male  :42  
+ 35-44:17   Other : 2  
+ 45-54:18              
+ 55-64: 1              
+ 65+  : 1              
+                Graduation
+ Bachelor's degree   :31  
+ High School or below:53  
+ Master's degree     :11  
+ PhD or higher       : 1  
+                          
+                          
+   Frequency       Guidance    
+ Min.   :1.00   Min.   :1.000  
+ 1st Qu.:3.00   1st Qu.:2.000  
+ Median :4.00   Median :3.000  
+ Mean   :3.76   Mean   :2.854  
+ 3rd Qu.:5.00   3rd Qu.:4.000  
+ Max.   :5.00   Max.   :5.000  
+  Independency      Regret     
+ Min.   :1.00   Min.   :1.000  
+ 1st Qu.:3.00   1st Qu.:1.000  
+ Median :4.00   Median :2.000  
+ Mean   :3.75   Mean   :2.333  
+ 3rd Qu.:5.00   3rd Qu.:3.000  
+ Max.   :5.00   Max.   :5.000  
+ LevelInfluenced     Risky      
+ Min.   :1.000   Min.   :1.000  
+ 1st Qu.:2.000   1st Qu.:2.000  
+ Median :3.000   Median :3.000  
+ Mean   :3.167   Mean   :3.188  
+ 3rd Qu.:4.000   3rd Qu.:4.000  
+ Max.   :5.000   Max.   :5.000  
+ Approaching       
+ Length:96         
+ Class :character  
+ Mode  :character  
+                   
+                   
+                   
+ InfluenceFactors  
+ Length:96         
+ Class :character  
+ Mode  :character  
+                   
+                   
+                   
+ pastyeardifficultydecision
+ Min.   :1.000             
+ 1st Qu.:2.000             
+ Median :3.000             
+ Mean   :3.094             
+ 3rd Qu.:4.000             
+ Max.   :5.000
+ ## I vizualized the numeric data by using ggplot() function in the package of ggplot2.
+ > ggplot(making_decision_ageversion, aes(x = Frequency)) +
++   geom_histogram(binwidth = 1, fill = "steelblue", color = "black") +
++   labs(title = "Decision-Making Frequency Distribution", x = "Frequency", y = "Count") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Guidance)) +
++   geom_histogram(binwidth = 1, fill = "red", color = "black") +
++   labs(title = "Decision-Making Guidance Distribution", x = "Guidance", y = "Count") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Independency)) +
++   geom_histogram(binwidth = 1, fill = "green", color = "black") +
++   labs(title = "Decision-Making Independency Distribution", x = "Indepedency", y = "Count") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Regret)) +
++   geom_histogram(binwidth = 1, fill = "pink", color = "black") +
++   labs(title = "Decision-Making Regret Distribution", x = "Regret", y = "Count") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = LevelInfluenced)) +
++   geom_histogram(binwidth = 1, fill = "purple", color = "black") +
++   labs(title = "Decision-Making The Level of Infleunced Distribution", x = "The Level of Influenced", y = "Count") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Risky)) +
++   geom_histogram(binwidth = 1, fill = "yellow", color = "black") +
++   labs(title = "Decision-Making Taking Risks Distribution", x = "The Level of Taking Risks", y = "Count") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = pastyeardifficultydecision)) +
++   geom_histogram(binwidth = 1, fill = "darkblue", color = "black") +
++   labs(title = "Decision-Making Difficulty  Distribution", x = "The Condition of Difficult Decisions in Last Year", y = "Count") +
++   theme_minimal()
+## I used geom_bar() function to vizual the categoric data.
+ggplot(making_decision_ageversion, aes(x = Gender, fill = Gender)) +
+  geom_bar() +
+  labs(title = "Gender Distribution", 
+       x = "Gender", 
+       y = "Count") +
+  theme_minimal()
+  ggplot(making_decision_ageversion, aes(x = Graduation, fill = Graduation)) +
+  geom_bar() +
+  labs(title = "Education Distribution", 
+       x = "Graduation", 
+       y = "Count") +
+  theme_minimal()+
+  scale_x_discrete(expand = expansion(mult = 0.1)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+  > ggplot(making_decision_ageversion, aes(x = Age, fill = Age)) +
++   geom_bar() +
++   labs(title = "The Age Distribution", 
++        x = "Age", 
++        y = "Count") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+## I used geom_boxplot() function to see the relationships between the numeric and categoric variables such as gender, age, and education.
+> ggplot(making_decision_ageversion, aes(x = Gender, y = Independency, fill = Gender)) +
++   geom_boxplot() +
++   labs(title = "The Level of Making-Decision Independently Age-Based", x = "Gender", y = "Indepency") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Gender, y = Frequency, fill = Gender)) +
++   geom_boxplot() +
++   labs(title = "Making-Decision Distribution Gender-Based", x = "Gender", y = "Frequency") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Gender, y = Guidance, fill = Gender)) +
++   geom_boxplot() +
++   labs(title = "Making-Decision on The Need of Guidance Gender-Based", x = "Gender", y = "Guidance") +
++   theme_minimal()
++   geom_boxplot() +
++   labs(title = "The Sense of Regret After Desicions Gender-Based", x = "Gender", y = "Regret") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Gender, y = LevelInfluenced, fill = Gender)) +
++   geom_boxplot() +
++   labs(title = "The Proportion of Influenced Gender-Based", x = "Gender", y = "Influenced Score") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Gender, y = Risky, fill = Gender)) +
++   geom_boxplot() +
++   labs(title = "The Proportion of Taking Risks Gender-Based", x = "Gender", y = "Taking Risks Score") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Gender, y = pastyeardifficultydecision, fill = Gender)) +
++   geom_boxplot() +
++   labs(title = "The Proportion of Difficult Desicions in Last Year Gender-Based", x = "Gender", y = "The Score") +
++   theme_minimal()
+> ggplot(making_decision_ageversion, aes(x = Age, y = Frequency, fill = Age)) +
++   geom_boxplot() +
++   labs(title = "The Proportion of Making Desicions Age-Based", x = "Age", y = "The Score") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> ggplot(making_decision_ageversion, aes(x = Age, y = Guidance, fill = Age)) +
++   geom_boxplot() +
++   labs(title = "Making-Decision on The Need of Guidance Age-Based", x = "Age", y = "The Score") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> ggplot(making_decision_ageversion, aes(x = Age, y = Independency, fill = Age)) +
++   geom_boxplot() +
++   labs(title = "Making-Decision Independently Age-Based", x = "Age", y = "The Score") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> ggplot(making_decision_ageversion, aes(x = Age, y = Regret, fill = Age)) +
++   geom_boxplot() +
++   labs(title = "The Sense of Regret After Decisions Age-Based", x = "Age", y = "The Score") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> ggplot(making_decision_ageversion, aes(x = Age, y = LevelInfluenced, fill = Age)) +
++   geom_boxplot() +
++   labs(title = "The Proportion of Influenced Age-Based", x = "Age", y = "The Score") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> ggplot(making_decision_ageversion, aes(x = Age, y = Risky, fill = Age)) +
++   geom_boxplot() +
++   labs(title = "The Proportion of Taking Risky Decisions", x = "Age", y = "The Score") +
++   theme_minimal()+
++   scale_x_discrete(expand = expansion(mult = 0.1)) +
++   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Age, y = pastyeardifficultydecision, fill = Age)) +
++     geom_boxplot() +
++     labs(title = "The Proportion of Difficult Decisions Last Year", x = "Age", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> >   ggplot(making_decision_ageversion, aes(x = Graduation, y = Guidance, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "Making-Decision on The Need of Guidance Education-Based", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Graduation, y = Frequency, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "Making-Decision Distribution Education-Based", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Graduation, y = Independency, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "Making-Decision Independently Education-Based", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Graduation, y = Regret, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "The Sense of Regret After Decisions Education-Based", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Graduation, y = LevelInfluenced, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "The Proportion of Influenced Education-Based", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Graduation, y = Risky, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "The Proportion of Taking Risky Decisions", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+>   ggplot(making_decision_ageversion, aes(x = Graduation, y = pastyeardifficultydecision, fill = Graduation)) +
++     geom_boxplot() +
++     labs(title = "The Proportion of Difficult Decisions Last Year", x = "Graduation", y = "The Score") +
++     theme_minimal()+
++     scale_x_discrete(expand = expansion(mult = 0.1)) +
++     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+> 
+
+
