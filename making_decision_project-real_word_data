@@ -356,6 +356,789 @@ ggplot(making_decision_ageversion, aes(x = Gender, fill = Gender)) +
 +     theme_minimal()+
 +     scale_x_discrete(expand = expansion(mult = 0.1)) +
 +     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1))
+## I did the hypothesis testing to see the relationship between two variables in the numeric data. The aim is to know if there is a relationship between them and if they are like these randomly or statistically.
+### I performed the Shapiro-Wilk test (shapiro.test()) to check the normal distribution.
+> shapiro.test(making_decision_ageversion$Frequency)
+
+	Shapiro-Wilk normality test
+
+data:  making_decision_ageversion$Frequency
+W = 0.85697, p-value = 3.536e-08
+
+> shapiro.test(making_decision_ageversion$Guidance)
+
+	Shapiro-Wilk normality test
+
+data:  making_decision_ageversion$Guidance
+W = 0.90731, p-value = 4.73e-06
+
+> shapiro.test(making_decision_ageversion$Independency)
+
+	Shapiro-Wilk normality test
+
+data:  making_decision_ageversion$Independency
+W = 0.86559, p-value = 7.532e-08
+
+> shapiro.test(making_decision_ageversion$Regret)
+
+	Shapiro-Wilk normality test
+
+data:  making_decision_ageversion$Regret
+W = 0.8686, p-value = 9.878e-08
+
+> shapiro.test(making_decision_ageversion$LevelInfluenced)
+
+	Shapiro-Wilk normality test
+
+data:  making_decision_ageversion$LevelInfluenced
+W = 0.9047, p-value = 3.55e-06
+
+> shapiro.test(making_decision_ageversion$Risky)
+
+	Shapiro-Wilk normality test
+
+data:  making_decision_ageversion$Risky
+W = 0.90084, p-value = 2.342e-06
+> numeric_data <- making_decision_ageversion[, sapply(making_decision_ageversion, is.numeric)]
+> cor_matrix <- cor(numeric_data, method = "spearman")
+> print(cor_matrix)
+                            Frequency
+Frequency                  1.00000000
+Guidance                   0.03807022
+Independency               0.15418703
+Regret                     0.04981699
+LevelInfluenced            0.02163141
+Risky                      0.06104819
+pastyeardifficultydecision 0.17615421
+                              Guidance
+Frequency                   0.03807022
+Guidance                    1.00000000
+Independency               -0.25396219
+Regret                      0.07611371
+LevelInfluenced             0.30682005
+Risky                       0.05427073
+pastyeardifficultydecision  0.23577465
+                           Independency
+Frequency                   0.154187030
+Guidance                   -0.253962194
+Independency                1.000000000
+Regret                     -0.201348644
+LevelInfluenced            -0.167050064
+Risky                       0.337462034
+pastyeardifficultydecision -0.008514191
+                                Regret
+Frequency                   0.04981699
+Guidance                    0.07611371
+Independency               -0.20134864
+Regret                      1.00000000
+LevelInfluenced             0.21309572
+Risky                       0.10589746
+pastyeardifficultydecision  0.18724014
+                           LevelInfluenced
+Frequency                       0.02163141
+Guidance                        0.30682005
+Independency                   -0.16705006
+Regret                          0.21309572
+LevelInfluenced                 1.00000000
+Risky                           0.10897018
+pastyeardifficultydecision      0.12921271
+                                Risky
+Frequency                  0.06104819
+Guidance                   0.05427073
+Independency               0.33746203
+Regret                     0.10589746
+LevelInfluenced            0.10897018
+Risky                      1.00000000
+pastyeardifficultydecision 0.15582960
+                           pastyeardifficultydecision
+Frequency                                 0.176154212
+Guidance                                  0.235774653
+Independency                             -0.008514191
+Regret                                    0.187240140
+LevelInfluenced                           0.129212707
+Risky                                     0.155829604
+pastyeardifficultydecision                1.000000000
+## All variables have p-value < 0.05, that is, they are not normally distributed. Therefore, Spearman correlation was used.
+## I installed Hmisc package to use rcorr() function in calculating both its correlation coefficient and its p-values.
+> install.packages("Hmisc")
+> library(Hmisc)
+## I used rcorr() function to calculate.
+> correlation_matrix <- cor_test$r
+> print(correlation_matrix)
+                            Frequency
+Frequency                  1.00000000
+Guidance                   0.03807022
+Independency               0.15418703
+Regret                     0.04981699
+LevelInfluenced            0.02163141
+Risky                      0.06104819
+pastyeardifficultydecision 0.17615421
+                              Guidance
+Frequency                   0.03807022
+Guidance                    1.00000000
+Independency               -0.25396219
+Regret                      0.07611371
+LevelInfluenced             0.30682005
+Risky                       0.05427073
+pastyeardifficultydecision  0.23577465
+                           Independency
+Frequency                   0.154187030
+Guidance                   -0.253962194
+Independency                1.000000000
+Regret                     -0.201348644
+LevelInfluenced            -0.167050064
+Risky                       0.337462034
+pastyeardifficultydecision -0.008514191
+                                Regret
+Frequency                   0.04981699
+Guidance                    0.07611371
+Independency               -0.20134864
+Regret                      1.00000000
+LevelInfluenced             0.21309572
+Risky                       0.10589746
+pastyeardifficultydecision  0.18724014
+                           LevelInfluenced
+Frequency                       0.02163141
+Guidance                        0.30682005
+Independency                   -0.16705006
+Regret                          0.21309572
+LevelInfluenced                 1.00000000
+Risky                           0.10897018
+pastyeardifficultydecision      0.12921271
+                                Risky
+Frequency                  0.06104819
+Guidance                   0.05427073
+Independency               0.33746203
+Regret                     0.10589746
+LevelInfluenced            0.10897018
+Risky                      1.00000000
+pastyeardifficultydecision 0.15582960
+                           pastyeardifficultydecision
+Frequency                                 0.176154212
+Guidance                                  0.235774653
+Independency                             -0.008514191
+Regret                                    0.187240140
+LevelInfluenced                           0.129212707
+Risky                                     0.155829604
+pastyeardifficultydecision                1.000000000
+## I installed ggcorrplot package to visual the results.
+> install.packages("ggcorrplot")
+> library(ggcorrplot)
+> ggcorrplot(cor_matrix,
++            method = "circle",
++            type = "lower",
++            lab = TRUE,
++            lab_size = 3,
++            colors= c("blue","white", "red"))
+## I calculated every p-value and I found the meaning and unmeaning relatiships between variables.
+> cor_results <- cor.test(making_decision_ageversion$Frequency, 
++                         making_decision_ageversion$Guidance, 
++                         method = "spearman", 
++                         exact = FALSE) 
+> table(making_decision_ageversion$Frequency)
+
+ 1  2  3  4  5 
+ 6  7 23 28 32 
 > 
+> table(making_decision_ageversion$Guidance)
 
+ 1  2  3  4  5 
+18 21 25 21 11 
+> cor_results$p.value
+[1] 0.712681
+> cor_results <- cor.test(making_decision_ageversion$Frequency, 
++                         making_decision_ageversion$Independency, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.1336368
+> cor_results <- cor.test(making_decision_ageversion$Frequency, 
++                         making_decision_ageversion$Regret, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.6297986
+> cor_results <- cor.test(making_decision_ageversion$Frequency, 
++                         making_decision_ageversion$LevelInfluenced, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.8342985
+> cor_results <- cor.test(making_decision_ageversion$Frequency, 
++                         making_decision_ageversion$Risky, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.5546117
+> cor_results <- cor.test(making_decision_ageversion$Frequency, 
++                         making_decision_ageversion$pastyeardifficultydecision, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.08601662
+> cor_results <- cor.test(making_decision_ageversion$Guidance, 
++                         making_decision_ageversion$Independency, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.01253214
+> cor_results <- cor.test(making_decision_ageversion$Guidance, 
++                         making_decision_ageversion$Regret, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.4610858
+> cor_results <- cor.test(making_decision_ageversion$Guidance, 
++                         making_decision_ageversion$LevelInfluenced, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.002361674
+> cor_results <- cor.test(making_decision_ageversion$Guidance, 
++                         making_decision_ageversion$Risky, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.5994691
+> cor_results <- cor.test(making_decision_ageversion$Guidance, 
++                         making_decision_ageversion$pastyeardifficultydecision, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.0207472
+> cor_results <- cor.test(making_decision_ageversion$Independency, 
++                         making_decision_ageversion$Regret, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.04916484
+> cor_results <- cor.test(making_decision_ageversion$Independency, 
++                         making_decision_ageversion$LevelInfluenced, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.1037877
+> cor_results <- cor.test(making_decision_ageversion$Independency, 
++                         making_decision_ageversion$Risky, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.0007728794
+> cor_results <- cor.test(making_decision_ageversion$Independency, 
++                         making_decision_ageversion$pastyeardifficultydecision, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.934384
+> cor_results <- cor.test(making_decision_ageversion$Regret, 
++                         making_decision_ageversion$LevelInfluenced, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.03710928
+> cor_results <- cor.test(making_decision_ageversion$Regret, 
++                         making_decision_ageversion$Risky, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.3044779
+> cor_results <- cor.test(making_decision_ageversion$Regret, 
++                         making_decision_ageversion$Risky, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.3044779
+> cor_results <- cor.test(making_decision_ageversion$Regret, 
++                         making_decision_ageversion$pastyeardifficultydecision, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.06774023
+> cor_results <- cor.test(making_decision_ageversion$LevelInfluenced, 
++                         making_decision_ageversion$Risky, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.29058
+> cor_results <- cor.test(making_decision_ageversion$LevelInfluenced, 
++                         making_decision_ageversion$pastyeardifficultydecision, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.2095863
+> cor_results <- cor.test(making_decision_ageversion$Risky, 
++                         making_decision_ageversion$pastyeardifficultydecision, 
++                         method = "spearman", 
++                         exact = FALSE)
+> cor_results$p.value
+[1] 0.1294968
+> cor_results$estimate
+      rho 
+0.1558296 
+## I decided to do test to understand the impact of categoric variables on numeric variables.
+Kruskal-Wallis test is done to see it.
+> kruskal.test(Frequency ~ Gender, data = making_decision_ageversion)
 
+	Kruskal-Wallis rank sum test
+
+data:  Frequency by Gender
+Kruskal-Wallis chi-squared =
+0.43763, df = 2, p-value =
+0.8035
+
+> kruskal.test(Guidance ~ Gender, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Guidance by Gender
+Kruskal-Wallis chi-squared =
+0.90498, df = 2, p-value = 0.636
+
+> kruskal.test(Independency ~ Gender, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Independency by Gender
+Kruskal-Wallis chi-squared =
+4.5515, df = 2, p-value = 0.1027
+
+> kruskal.test(Regret ~ Gender, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Regret by Gender
+Kruskal-Wallis chi-squared =
+3.9988, df = 2, p-value = 0.1354
+
+> kruskal.test(LevelInfluenced ~ Gender, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  LevelInfluenced by Gender
+Kruskal-Wallis chi-squared =
+1.9298, df = 2, p-value = 0.381
+
+> kruskal.test(Risky ~ Gender, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Risky by Gender
+Kruskal-Wallis chi-squared =
+2.5412, df = 2, p-value = 0.2807
+
+> kruskal.test(pastyeardifficultydecision ~ Gender, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  pastyeardifficultydecision by Gender
+Kruskal-Wallis chi-squared =
+4.0737, df = 2, p-value = 0.1304
+## All p-values were bigger than 0.05. It means that there is no a meaning relationship between gender and other variables.
+> kruskal.test(Frequency ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Frequency by Age
+Kruskal-Wallis chi-squared =
+1.6508, df = 5, p-value = 0.895
+
+> kruskal.test(Guidance ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Guidance by Age
+Kruskal-Wallis chi-squared =
+14.015, df = 5, p-value =
+0.01552
+
+> kruskal.test(Independency ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Independency by Age
+Kruskal-Wallis chi-squared =
+5.0677, df = 5, p-value = 0.4077
+
+> kruskal.test(Regret ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Regret by Age
+Kruskal-Wallis chi-squared =
+8.762, df = 5, p-value = 0.1189
+
+> kruskal.test(LevelInfluenced ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  LevelInfluenced by Age
+Kruskal-Wallis chi-squared =
+3.2411, df = 5, p-value = 0.6629
+
+> kruskal.test(Risky ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Risky by Age
+Kruskal-Wallis chi-squared =
+3.8373, df = 5, p-value = 0.5731
+
+> kruskal.test(pastyeardifficultydecision ~ Age, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  pastyeardifficultydecision by Age
+Kruskal-Wallis chi-squared =
+4.8173, df = 5, p-value = 0.4386
+## Except guidance variable, others were bigger than 0.05. It means that there is a meaning relationship between age and guidance variable.
+>         kruskal.test(Frequency ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Frequency by Graduation
+Kruskal-Wallis chi-squared =
+0.89482, df = 3, p-value =
+0.8267
+
+>         kruskal.test(Guidance ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Guidance by Graduation
+Kruskal-Wallis chi-squared =
+3.8364, df = 3, p-value = 0.2797
+
+>         kruskal.test(Independency ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Independency by Graduation
+Kruskal-Wallis chi-squared =
+3.9014, df = 3, p-value = 0.2723
+
+>         kruskal.test(Regret ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Regret by Graduation
+Kruskal-Wallis chi-squared =
+2.3737, df = 3, p-value = 0.4985
+
+>         kruskal.test(LevelInfluenced ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  LevelInfluenced by Graduation
+Kruskal-Wallis chi-squared =
+2.0274, df = 3, p-value = 0.5667
+
+>         kruskal.test(Risky ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  Risky by Graduation
+Kruskal-Wallis chi-squared =
+1.2467, df = 3, p-value = 0.7418
+
+>         kruskal.test(pastyeardifficultydecision ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  pastyeardifficultydecision by Graduation
+Kruskal-Wallis chi-squared =
+2.8174, df = 3, p-value = 0.4206
+## There is no a meaning relationship between education and other variables because all p-values are not smaller than 0.05.
+> ggplot(making_decision_ageversion, aes(x = InfluenceFactors, fill = InfluenceFactors)) +
++   geom_bar() +
++   labs(title = "Influence Factors Distribution", x = "Influence Factors", y = "Count") +
++   theme_minimal() +
++   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+> ggplot(making_decision_ageversion, aes(x = Approaching, fill = Approaching)) +
++   geom_bar() +
++   labs(title = "Decision Approaching Distribution", x = "Approaching Style", y = "Count") +
++   theme_minimal() +
++   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+## I created bar graphics for other factoric data.
+> kruskal.test(InfluenceFactors ~ Graduation, data = making_decision_ageversion)
+
+	Kruskal-Wallis rank sum test
+
+data:  InfluenceFactors by Graduation
+Kruskal-Wallis chi-squared =
+4.4376, df = 3, p-value = 0.2179
+## I used Kruskal-Wallis test to see the realtionship between education and factors affecting people's decision. 
+There is no any connection.
+> chisq.test(table(making_decision_ageversion$Age, making_decision_ageversion$InfluenceFactors))
+
+	Pearson's Chi-squared test
+
+data:  table(making_decision_ageversion$Age, making_decision_ageversion$InfluenceFactors)
+X-squared = 19.398, df = 20,
+p-value = 0.4961
+## There is no a connection between age and facotrs affecting people's decisions.
+gradu_inf_table<-table(md2$Graduation, md2$Factor1)
+chisq.test<- chisq.test(gradu_inf_table)
+chisq.test
+fisher.test(gradu_inf_table)
+gradu_inf_table2<-table(md2$Graduation, md2$Factor2)
+chisq.test<- chisq.test(gradu_inf_table2)
+
+chisq.test
+fisher.test(gradu_inf_table2)
+gradu_inf_table3<-table(md2$Graduation, md2$Factor3)
+chisq.test
+fisher.test(gradu_inf_table3)
+gradu_inf_table4<-table(md2$Graduation, md2$Factor4)
+chisq.test
+fisher.test(gradu_inf_table4)
+gradu_inf_table5<-table(md2$Graduation, md2$Factor5)
+## I used Chi-Square test with chisq.test to see the relationships between gradution and factors.
+Moreover, I used fisher.test because there were few data. There is not connection between them.
+> fisher.test(age_inf_table1, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age_inf_table1
+p-value = 0.2965
+alternative hypothesis: two.sided
+
+> age_inf_table2<- table(md2$Age, md2$Factor2)
+> fisher.test(age_inf_table2, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age_inf_table2
+p-value = 0.5938
+alternative hypothesis: two.sided
+
+> age_inf_table3<-(md2$Age, md2$Factor3)
+Hata: beklenmeyen durum, ',' içinde "age_inf_table3<-(md2$Age,"
+> age_inf_table<- table(md2$Age, md2$Factor3)
+> fisher.test(age_inf_table3, simulate.p.value = TRUE, B = 10000)
+Hata: 'age_inf_table3' nesnesi bulunamadı
+> age_inf_table3<- table(md2$Age, md2$Factor3)
+> fisher.test(age_inf_table3, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age_inf_table3
+p-value = 0.05019
+alternative hypothesis: two.sided
+
+> age_inf_table4<- table(md2$Age, md2$Factor4)
+> fisher.test(age_inf_table4, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age_inf_table4
+p-value = 0.1056
+alternative hypothesis: two.sided
+## I used Monte Carlo simulation with fisher test and I found that I did not a connection between them except age-factor 3.
+> table(md2$Age, md2$Factor3)
+       
+        Principles Time
+  18-24          5    7
+  25-34          1    2
+  35-44          6    0
+  45-54          2    1
+  55-64          0    0
+  65+            0    0
+> prop.table(table(md2$Age, md2$Factor3), margin = 1)
+       
+        Principles      Time
+  18-24  0.4166667 0.5833333
+  25-34  0.3333333 0.6666667
+  35-44  1.0000000 0.0000000
+  45-54  0.6666667 0.3333333
+  55-64                     
+  65+  
+## I calculated which age group preferred most factor 3. 
+> install.packages("rcompanion")
+> library(rcompanion)
+> age_principles_table <- table(md2$Age, md2$Factor3)
+> pairwise_results <- pairwiseNominalIndependence(age_principles_table, fisher = TRUE, gtest  = FALSE, chisq  = FALSE, method = "holm")
+> pairwise_results
+      Comparison p.Fisher
+1  18-24 : 25-34   1.0000
+2  18-24 : 35-44   0.0377
+3  18-24 : 45-54   0.5690
+4  18-24 : 55-64   1.0000
+5    18-24 : 65+   1.0000
+6  25-34 : 35-44   0.0833
+7  25-34 : 45-54   1.0000
+8  25-34 : 55-64   1.0000
+9    25-34 : 65+   1.0000
+10 35-44 : 45-54   0.3330
+11 35-44 : 55-64   1.0000
+12   35-44 : 65+   1.0000
+13 45-54 : 55-64   1.0000
+14   45-54 : 65+   1.0000
+15   55-64 : 65+   1.0000
+   p.adj.Fisher
+1         1.000
+2         0.566
+3         1.000
+4         1.000
+5         1.000
+6         1.000
+7         1.000
+8         1.000
+9         1.000
+10        1.000
+11        1.000
+12        1.000
+13        1.000
+14        1.000
+15        1.000
+## After installing the package of rcompanion, I used Pairwise Fisher's Exact Test to know whether whether there is a significant difference between age groups in terms of choosing the "Principles" factor.
+There is no connetion between them.
+> gender_inf_table1<- table(md2$Gender, md2$Factor1)
+> fisher.test(gender_inf_table1, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender_inf_table1
+p-value = 0.1666
+alternative hypothesis: two.sided
+
+> gender_inf_table2<- table(md2$Gender, md2$Factor2)
+> fisher.test(gender_inf_table2, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender_inf_table2
+p-value = 0.6581
+alternative hypothesis: two.sided
+
+> gender_inf_table3<- table(md2$Gender, md2$Factor3)
+> fisher.test(gender_inf_table3, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender_inf_table3
+p-value = 0.4066
+alternative hypothesis: two.sided
+
+> gender_inf_table4<- table(md2$Gender, md2$Factor4)
+> fisher.test(gender_inf_table4, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender_inf_table4
+p-value = 0.6363
+alternative hypothesis: two.sided
+## There is no connection between gender and factors.
+> age2_inf_table1<- table(md2$Age, md2$Approaching1)
+> fisher.test(age2_inf_table1, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age2_inf_table1
+p-value = 0.9045
+alternative hypothesis: two.sided
+> age2_inf_table2<- table(md2$Age, md2$Approaching2)
+> fisher.test(age2_inf_table2, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age2_inf_table2
+p-value = 0.6073
+alternative hypothesis: two.sided
+
+> age2_inf_table3<- table(md2$Age, md2$Approaching3)
+> fisher.test(age2_inf_table3, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  age2_inf_table3
+p-value = 1
+alternative hypothesis: two.sided
+## There is not connection between age and approachings.
+> gradu2_inf_table1<-table(md2$Graduation, md2$Approaching1)
+> fisher.test(gradu2_inf_table1, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gradu2_inf_table1
+p-value = 0.3373
+alternative hypothesis: two.sided
+
+> gradu2_inf_table2<-table(md2$Graduation, md2$Approaching2)
+> fisher.test(gradu2_inf_table2, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gradu2_inf_table2
+p-value = 0.9604
+alternative hypothesis: two.sided
+
+> gradu2_inf_table3<-table(md2$Graduation, md2$Approaching3)
+> fisher.test(gradu2_inf_table3, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gradu2_inf_table3
+p-value = 1
+alternative hypothesis: two.sided
+## There is no a connection between education and approachings.
+> gender2_inf_table1<-table(md2$Gender, md2$Approaching1)
+> fisher.test(gender2_inf_table1, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender2_inf_table1
+p-value = 0.4837
+alternative hypothesis: two.sided
+
+> gender2_inf_table2<-table(md2$Gender, md2$Approaching2)
+> fisher.test(gender2_inf_table2, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender2_inf_table2
+p-value = 0.5338
+alternative hypothesis: two.sided
+
+> gender2_inf_table3<-table(md2$Gender, md2$Approaching3)
+> fisher.test(gender2_inf_table3, simulate.p.value = TRUE, B = 10000)
+
+	Fisher's Exact Test for Count
+	Data with simulated p-value
+	(based on 10000 replicates)
+
+data:  gender2_inf_table3
+p-value = 0.2567
+alternative hypothesis: two.sided
+## There is no a connection between gender and approachings.
