@@ -1142,3 +1142,262 @@ data:  gender2_inf_table3
 p-value = 0.2567
 alternative hypothesis: two.sided
 ## There is no a connection between gender and approachings.
+## I tested the relationskip between frequency and demographic variables. There is no connection.
+> kruskal.test(Frequency ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Frequency by Age
+Kruskal-Wallis chi-squared =
+1.6508, df = 5, p-value = 0.895
+> kruskal.test(Frequency ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Frequency by Graduation
+Kruskal-Wallis chi-squared =
+0.89482, df = 3, p-value =
+0.8267
+> kruskal.test(Frequency ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Frequency by Gender
+Kruskal-Wallis chi-squared =
+0.43763, df = 2, p-value =
+0.8035
+> kruskal.test(Guidance ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Guidance by Age
+Kruskal-Wallis chi-squared =
+14.015, df = 5, p-value =
+0.01552
+
+> kruskal.test(Guidance ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Guidance by Gender
+Kruskal-Wallis chi-squared =
+0.90498, df = 2, p-value = 0.636
+
+> kruskal.test(Guidance ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Guidance by Graduation
+Kruskal-Wallis chi-squared =
+3.8364, df = 3, p-value = 0.2797
+## I tested the relationship between guidance and demographic variables. There is no a connection except age.
+## I used post-hoc test to see the differencess among age groups. But there was no a difderence.
+> install.packages("FSA")
+> library(FSA)
+> dunnTest(Guidance ~ Age, data = md2, method = "bonferroni")
+Dunn (1964) Kruskal-Wallis multiple comparison
+  p-values adjusted with the Bonferroni method.
+
+      Comparison          Z
+1  18-24 - 25-34 -2.2377196
+2  18-24 - 35-44 -1.6783487
+3  25-34 - 35-44  0.3639421
+4  18-24 - 45-54  0.7497019
+5  25-34 - 45-54  2.5621119
+6  35-44 - 45-54  2.0822984
+7  18-24 - 55-64  1.2329091
+8  25-34 - 55-64  1.8147773
+9  35-44 - 55-64  1.6897571
+10 45-54 - 55-64  1.0069208
+11   18-24 - 65+ -1.7247358
+12   25-34 - 65+ -1.1126415
+13   35-44 - 65+ -1.2221315
+14   45-54 - 65+ -1.9094718
+15   55-64 - 65+ -2.1187101
+      P.unadj     P.adj
+1  0.02523935 0.3785902
+2  0.09327904 1.0000000
+3  0.71590122 1.0000000
+4  0.45343428 1.0000000
+5  0.01040378 0.1560567
+6  0.03731522 0.5597283
+7  0.21760966 1.0000000
+8  0.06955815 1.0000000
+9  0.09107444 1.0000000
+10 0.31397282 1.0000000
+11 0.08457510 1.0000000
+12 0.26586244 1.0000000
+13 0.22165790 1.0000000
+14 0.05620126 0.8430188
+15 0.03411497 0.5117246
+> kruskal.test(Independency ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Independency by Age
+Kruskal-Wallis chi-squared =
+5.0677, df = 5, p-value = 0.4077
+
+> kruskal.test(Independency ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Independency by Gender
+Kruskal-Wallis chi-squared =
+4.5515, df = 2, p-value = 0.1027
+
+> kruskal.test(Independency ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Independency by Graduation
+Kruskal-Wallis chi-squared =
+3.9014, df = 3, p-value = 0.2723
+## I used Kruskal-Wallis Test to see the connection between demografic variables and independency. The reseult is no connection.
+> kruskal.test(Regret ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Regret by Age
+Kruskal-Wallis chi-squared =
+8.762, df = 5, p-value = 0.1189
+
+> kruskal.test(Regret ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Regret by Gender
+Kruskal-Wallis chi-squared =
+3.9988, df = 2, p-value = 0.1354
+
+> kruskal.test(Regret ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Regret by Graduation
+Kruskal-Wallis chi-squared =
+2.3737, df = 3, p-value = 0.4985
+## There is no connection between regret and demographic factors.
+> kruskal.test(LevelInfluenced ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  LevelInfluenced by Age
+Kruskal-Wallis chi-squared =
+3.2411, df = 5, p-value = 0.6629
+
+> kruskal.test(LevelInfluenced ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  LevelInfluenced by Gender
+Kruskal-Wallis chi-squared =
+1.9298, df = 2, p-value = 0.381
+
+> kruskal.test(LevelInfluenced ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  LevelInfluenced by Graduation
+Kruskal-Wallis chi-squared =
+2.0274, df = 3, p-value = 0.5667
+## There is no connection between the level of being influenced by emotions and demographic factors.
+> kruskal.test(Risky ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Risky by Age
+Kruskal-Wallis chi-squared =
+3.8373, df = 5, p-value = 0.5731
+
+> kruskal.test(Risky ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Risky by Gender
+Kruskal-Wallis chi-squared =
+2.5412, df = 2, p-value = 0.2807
+
+> kruskal.test(Risky ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  Risky by Graduation
+Kruskal-Wallis chi-squared =
+1.2467, df = 3, p-value = 0.7418
+## There is no connection between the level of taking risks and demographic factors.
+> kruskal.test(pastyeardifficultydecision ~ Age, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  pastyeardifficultydecision by Age
+Kruskal-Wallis chi-squared =
+4.8173, df = 5, p-value = 0.4386
+
+> kruskal.test(pastyeardifficultydecision ~ Gender, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  pastyeardifficultydecision by Gender
+Kruskal-Wallis chi-squared =
+4.0737, df = 2, p-value = 0.1304
+
+> kruskal.test(pastyeardifficultydecision ~ Graduation, data = md2)
+
+	Kruskal-Wallis rank sum test
+
+data:  pastyeardifficultydecision by Graduation
+Kruskal-Wallis chi-squared =
+2.8174, df = 3, p-value = 0.4206
+## There is no conncetion between past year difficulty decision and demographic factors.
+> gradu_info_table1<-(mak_dec$Graduation, mak_dec$Approaching)
+Hata: beklenmeyen durum, ',' içinde "gradu_info_table1<-(mak_dec$Graduation,"
+> gradu_info_table1<-table(mak_dec$Graduation, mak_dec$Approaching)
+> chisq.test(gradu_info_table1, simulate.p.value = TRUE)
+
+	Pearson's Chi-squared test with
+	simulated p-value (based on 2000
+	replicates)
+
+data:  gradu_info_table1
+X-squared = 14.325, df = NA,
+p-value = 0.1029
+## I used chisq.test function to see the relationships between demographic variables and approaching. Except gender, there is no connection.
+> age_info_table2<-table(mak_dec$Age, mak_dec$InfluenceFactors)
+> chisq.test(age_info_table2, simulate.p.value = TRUE)
+
+	Pearson's Chi-squared test with
+	simulated p-value (based on 2000
+	replicates)
+
+data:  age_info_table2
+X-squared = 44.66, df = NA,
+p-value = 0.001499
+
+> gender_info_table2<-table(mak_dec$Gender, mak_dec$InfluenceFactors)
+> chisq.test(gender_info_table2, simulate.p.value = TRUE)
+
+	Pearson's Chi-squared test with
+	simulated p-value (based on 2000
+	replicates)
+
+data:  gender_info_table2
+X-squared = 21.531, df = NA,
+p-value = 0.008496
+
+> 
+> gradu_info_table2<-table(mak_dec$Graduation, mak_dec$InfluenceFactors)
+> chisq.test(gradu_info_table2, simulate.p.value = TRUE)
+
+	Pearson's Chi-squared test with
+	simulated p-value (based on 2000
+	replicates)
+
+data:  gradu_info_table2
+X-squared = 44.509, df = NA,
+p-value = 0.0004998
+## There is a relatipnship between demographic variables and factors.
+
+
+
+
